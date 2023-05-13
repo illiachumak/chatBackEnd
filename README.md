@@ -22,7 +22,7 @@ Azure: Web App, Cosmos DB
 # How to run a project on localhost 
 ### To start server
 Install dependencies `npm ci`
-Start with `npm run dev`
+Start with `npm start`
 
 # Decomposition of project tasks
 ### Main functionality
