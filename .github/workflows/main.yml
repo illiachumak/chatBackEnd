@@ -2,7 +2,7 @@ name: deploy to ec2
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
     build:
@@ -21,6 +21,6 @@ jobs:
           script: |
             cd chat/backend
             git fetch --all
-            git reset --hard origin/main
-            git pull origin origin/main
+            git reset --hard origin/master
+            git pull origin origin/master
             docker-compose up —build -d
