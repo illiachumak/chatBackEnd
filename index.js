@@ -5,10 +5,15 @@ const axios = require("axios");
 
 const app = express();
 const server = require('http').Server(app);
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: '*',
+  }} 
+  );
 
 app.use(express.json());
-app.use(cors({ origin: true }));
+app.use(cors())
+
 
 
 
@@ -64,5 +69,6 @@ app.post("/register", async (req, res) => {
 io.on('connection', socket => {
 
 })
+
 
 server.listen(3001);
