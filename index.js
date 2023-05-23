@@ -33,12 +33,13 @@ app.get('/', (req, res) => {
 app.post("/authenticate", async (req, res) => {
   const { username } = req.body;
   const { secret } = req.body;
+  const { roomId } = req.body;
   
   try{
     const resp = await axios.put(
         "https://api.chatengine.io/users/",
         {username: username, secret: secret, first_name: username},
-        {headers:{"private-key": "867d832c-a3fe-428d-9cd7-8941bb86760b"}}
+        {headers:{"private-key": "af30f057-cd59-4aab-a334-d50b8656b18a"}}
     )
     return res.status(resp.status).json(resp.data)
   } catch(e){
@@ -56,7 +57,7 @@ app.post("/register", async (req, res) => {
     const resp = await axios.put(
         "https://api.chatengine.io/users/",
         {username: username, secret: secret, first_name: username},
-        {headers:{"private-key": "867d832c-a3fe-428d-9cd7-8941bb86760b"}}
+        {headers:{"private-key": "af30f057-cd59-4aab-a334-d50b8656b18a"}}
     )
     return res.status(resp.status).json(resp.data)
   } catch(e){
