@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
+const e = require("express");
 
 const app = express();
 const server = require("http").Server(app);
@@ -38,7 +39,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/authenticate", async (req, res) => {
-  const { username, secret, roomId } = req.body;
+  const { username, roomId } = req.body;
 
   if (!rooms.has(roomId)) {
     rooms.set(
@@ -50,32 +51,37 @@ app.post("/authenticate", async (req, res) => {
     );
   }
 
-  try {
-    const resp = await axios.put(
-      "https://api.chatengine.io/users/",
-      { username, secret, first_name: username },
-      { headers: { "private-key": "af30f057-cd59-4aab-a334-d50b8656b18a" } }
-    );
+
+
+
+
+
 
     const room = rooms.get(roomId);
     const usersMap = room.get("users");
-    usersMap.set(resp.data.username, "offline");
+    usersMap.set(username, "offline");
     room.set("users", usersMap);
 
     const users = Array.from(usersMap.values()).map((status) => ({
-      username: resp.data.username,
+      username: username,
       status,
     }));
     io.to(roomId).emit("ROOM:JOINED", users);
 
-    return res.status(resp.status).json(resp.data);
-  } catch (e) {
-    if (e.response) {
-      return res.status(e.response.status).json(e.response.data);
-    } else {
-      return res.status(500).json({ message: "Internal Server Error" });
-    }
-  }
+    return res.status(200).json(username);
+  
+    
+});
+
+
+
+app.post("/authenticate-google", async (req, res) => {
+  const { username } = req.body;
+
+  
+    return res.status(200).json(username);
+  
+    
 });
 
 
