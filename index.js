@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const e = require("express");
+const { disconnect } = require("process");
 
 const app = express();
 const server = require("http").Server(app);
@@ -10,6 +11,29 @@ const io = require("socket.io")(server, {
     origin: "*",
   },
 });
+
+
+
+const { initializeApp } = require("firebase/app");
+const { getDatabase, set, ref, update, } = require("firebase/database");
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBkTOrTblEMljuWYGB4kmm93M3c-rfvkd8",
+  authDomain: "persprojauth555.firebaseapp.com",
+  databaseURL: "https://persprojauth555-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "persprojauth555",
+  storageBucket: "persprojauth555.appspot.com",
+  messagingSenderId: "861020334162",
+  appId: "1:861020334162:web:9697c67eff12d7a34f978b",
+  measurementId: "G-KSY7V626QR"
+};
+
+const init = initializeApp(firebaseConfig);
+const db = getDatabase(init);
+
+
+
 
 app.use(express.json());
 app.use(cors());
@@ -75,17 +99,6 @@ app.post("/authenticate", async (req, res) => {
 
 
 
-app.post("/authenticate-google", async (req, res) => {
-  const { username } = req.body;
-
-  
-    return res.status(200).json(username);
-  
-    
-});
-
-
-
 io.on("connection", (socket) => {
   const user = {
     id: socket.id,
@@ -93,6 +106,10 @@ io.on("connection", (socket) => {
 
   socket.on("USER:SET_USERNAME", (username) => {
     user.username = username;
+  });
+
+  socket.on("USER:SET_USERID", (userID) => {
+    user.userId = userID
   });
 
   socket.on("ROOM:JOIN", (roomId) => {
@@ -139,6 +156,10 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     const roomId = user.roomId;
+
+    update(ref(db, 'Users/' + user.userId),{
+      login: 'disconnected',
+    })
 
     if (user.username) {
       if (rooms.has(roomId)) {
