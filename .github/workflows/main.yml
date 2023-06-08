@@ -23,4 +23,5 @@ jobs:
             git fetch --all
             git reset --hard origin/master
             git pull origin origin/master
-            docker compose up --build -d
+            sudo docker compose up --build -d
+            
