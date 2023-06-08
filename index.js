@@ -90,7 +90,7 @@ app.post("/authenticate", async (req, res) => {
       username: username,
       status,
     }));
-    io.to(roomId).emit("ROOM:JOINED", users);
+    
 
     return res.status(200).json(username);
   
