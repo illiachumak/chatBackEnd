@@ -1,36 +1,26 @@
-const express = require("express");
-const cors = require("cors");
-const axios = require("axios");
-const e = require("express");
-const { disconnect } = require("process");
+const container = require("./di");
 
-const app = express();
-const server = require("http").Server(app);
-const io = require("socket.io")(server, {
+const cors = container.get("Cors")
+const express = container.get("Express");
+const app = container.get("Express")();
+const server = container.get("Http").Server(app);
+const io = container.get("SocketIO")(server, {
   cors: {
     origin: "*",
   },
 });
+const axios = container.get("Axios");
 
 
 
-const { initializeApp } = require("firebase/app");
-const { getDatabase, set, ref, update, } = require("firebase/database");
 
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBkTOrTblEMljuWYGB4kmm93M3c-rfvkd8",
-  authDomain: "persprojauth555.firebaseapp.com",
-  databaseURL: "https://persprojauth555-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "persprojauth555",
-  storageBucket: "persprojauth555.appspot.com",
-  messagingSenderId: "861020334162",
-  appId: "1:861020334162:web:9697c67eff12d7a34f978b",
-  measurementId: "G-KSY7V626QR"
-};
 
-const init = initializeApp(firebaseConfig);
-const db = getDatabase(init);
+const update = container.get("update");
+const ref = container.get("ref");
+
+const init = container.get("init");
+const db = container.get("db");
 
 
 
