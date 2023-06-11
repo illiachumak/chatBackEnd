@@ -93,13 +93,16 @@ io.on("connection", (socket) => {
   const user = {
     id: socket.id,
   };
+ 
 
   socket.on("USER:SET_USERNAME", (username) => {
     user.username = username;
   });
 
   socket.on("USER:SET_USERID", (userID) => {
-    user.userId = userID
+    user.userId = userID 
+    
+
   });
 
   socket.on("ROOM:JOIN", (roomId) => {
