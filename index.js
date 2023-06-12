@@ -47,23 +47,6 @@ app.get("/", (req, res) => {
 app.post("/authenticate", async (req, res) => {
   const { username, roomId, } = req.body;
 
-  let room = rooms.find((room) => room.roomId === roomId);
-  if (!room) {
-    room = {
-      roomId,
-      users: {},
-      messages: [],
-    };
-    rooms.push(room);
-  }
-
-  const users = room.users;
-  users[username] = {
-    username,
-    status: "offline",
-    
-  };
-  room.users = users;
 
   const userList = Object.values(users);
 
