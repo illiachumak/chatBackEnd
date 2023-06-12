@@ -45,29 +45,38 @@ app.get("/", (req, res) => {
 });
 
 app.post("/authenticate", async (req, res) => {
-  const { username, roomId, photoURL } = req.body;
+  const { username, roomId } = req.body;
 
-  let room = rooms.find((room) => room.roomId === roomId);
-  if (!room) {
-    room = {
+  if (!rooms.has(roomId)) {
+    rooms.set(
       roomId,
-      users: {},
-      messages: [],
-    };
-    rooms.push(room);
+      new Map([
+        ["users", new Map()],
+        ["messages", []],
+      ])
+    );
   }
 
-  const users = room.users;
-  users[username] = {
-    username,
-    status: "offline",
-    photoURL: photoURL,
-  };
-  room.users = users;
 
-  const userList = Object.values(users);
 
-  return res.status(200).json(username);
+
+
+
+
+    const room = rooms.get(roomId);
+    const usersMap = room.get("users");
+    usersMap.set(username, "offline");
+    room.set("users", usersMap);
+
+    const users = Array.from(usersMap.values()).map((status) => ({
+      username: username,
+      status,
+    }));
+    
+
+    return res.status(200).json(username);
+  
+    
 });
 
 io.on("connection", (socket) => {
