@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
   socket.on("ROOM:JOIN", async (roomId, photoURL) => {
     user.roomId = roomId;
     socket.join(roomId);
-
+  
     let room = rooms.find((room) => room.roomId === roomId);
     if (!room) {
       room = {
@@ -89,34 +89,38 @@ io.on("connection", (socket) => {
       };
       rooms.push(room);
     }
-
+  
     const users = room.users;
     users[user.userId] = {
       username: user.username,
       status: "online",
       photoURL: photoURL,
     };
-
+  
     room.users = users;
-
+  
     const userList = Object.entries(users).map(([userId, userInfo]) => ({
       userId,
       username: userInfo.username,
       status: userInfo.status,
       photoURL: userInfo.photoURL,
     }));
-
+  
     io.to(roomId).emit("ROOM:JOINED", userList);
-
+  
     const messages = room.messages;
-
+  
     if (messages.length > 0) {
       messages.forEach((message) => {
         socket.emit("MESSAGE:RECEIVED", message);
       });
     }
   });
+  
 
+    
+
+   
   socket.on("MESSAGE:SEND", (message) => {
     const roomId = user.roomId;
     const room = rooms.find((room) => room.roomId === roomId);
