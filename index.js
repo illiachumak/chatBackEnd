@@ -58,14 +58,8 @@ app.post("/authenticate", async (req, res) => {
   }
 
   const users = room.users;
-  users[username] = {
-    username,
-    status: "offline",
-    
-  };
-  room.users = users;
-
-  const userList = Object.values(users);
+ 
+ 
 
   return res.status(200).json(username);
 });
