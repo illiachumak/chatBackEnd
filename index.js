@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/authenticate", async (req, res) => {
-  const { username, roomId, } = req.body;
+  const { username, roomId } = req.body;
 
   let room = rooms.find((room) => room.roomId === roomId);
   if (!room) {
@@ -57,18 +57,11 @@ app.post("/authenticate", async (req, res) => {
     rooms.push(room);
   }
 
-  const users = room.users;
-  users[username] = {
-    username,
-    status: "offline",
-    
-  };
-  room.users = users;
+  const userList = Object.values(room.users);
 
-  const userList = Object.values(users);
-
-  return res.status(200).json(username);
+  return res.status(200).json(userList);
 });
+
 
 io.on("connection", (socket) => {
   const user = {
