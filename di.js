@@ -1,6 +1,6 @@
 const { Container } = require("inversify");
 const { initializeApp } = require("firebase/app");
-const { getDatabase, ref, update } = require("firebase/database");
+const { getDatabase, ref, update, onValue} = require("firebase/database");
 
 const express = require("express");
 const cors = require("cors");
@@ -20,9 +20,11 @@ const firebaseConfig = {
   };
 
 const container = new Container();
+
 container.bind("firebaseConfig").toConstantValue(firebaseConfig);
 container.bind("update").toConstantValue(update);
 container.bind("ref").toConstantValue(ref);
+container.bind("onValue").toConstantValue(onValue);
 container.bind("init").toConstantValue(initializeApp(container.get("firebaseConfig")));
 container.bind("db").toConstantValue(getDatabase(container.get("init")));
 container.bind("Express").toConstantValue(express);
