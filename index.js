@@ -16,16 +16,58 @@ const ref = container.get("ref");
 
 const init = container.get("init");
 const db = container.get("db");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swaggerDef");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 app.use(express.json());
 app.use(cors());
 
 const rooms = [];
 
+/**
+ * @swagger
+ * /rooms:
+ *   get:
+ *     summary: Get all rooms
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ */
 app.get("/rooms", function (req, res) {
   res.json(rooms.map((room) => room.roomId));
 });
 
+/**
+ * @swagger
+ * /rooms/{roomId}/messages:
+ *   get:
+ *     summary: Get messages for a specific room
+ *     parameters:
+ *       - in: path
+ *         name: roomId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   // Define properties of the message object here
+ */
 app.get("/rooms/:roomId/messages", function (req, res) {
   const roomId = req.params.roomId;
   const room = rooms.find((room) => room.roomId === roomId);
@@ -38,14 +80,54 @@ app.get("/rooms/:roomId/messages", function (req, res) {
   res.json(messages);
 });
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Get the root endpoint
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
 app.get("/", (req, res) => {
   res.json({
     message: "Hello World!",
   });
 });
 
+/**
+ * @swagger
+ * /authenticate:
+ *   post:
+ *     summary: Authenticate a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               roomId:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ */
 app.post("/authenticate", async (req, res) => {
-  const { username, roomId, } = req.body;
+  const { username, roomId } = req.body;
 
   let room = rooms.find((room) => room.roomId === roomId);
   if (!room) {
@@ -58,8 +140,6 @@ app.post("/authenticate", async (req, res) => {
   }
 
   const users = room.users;
- 
- 
 
   return res.status(200).json(username);
 });
@@ -101,7 +181,6 @@ io.on("connection", (socket) => {
     room.users = users;
 
     const userList = Object.entries(users).map(([userId, userInfo]) => ({
-      
       username: userInfo.username,
       status: userInfo.status,
       photoURL: userInfo.photoURL,
