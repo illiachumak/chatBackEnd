@@ -1,9 +1,9 @@
 # Chat Server
 
 Contacts :<br/>
-Oleh Muzychuk<br/>
-<a href="mailto:olehmuz87@gmail.com">Email</a><br/>
-<a href="https://t.me/alegmuz" target="_blank">Telegram</a>
+Illia Chumak<br/>
+<a href="mailto:illia.chumak.2017@gmail.com">Email</a><br/>
+<a href="https://t.me/cr0ss_f1re" target="_blank">Telegram</a>
 
 # Tech Stack
 
