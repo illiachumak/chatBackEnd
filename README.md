@@ -7,32 +7,26 @@ Oleh Muzychuk<br/>
 
 # Tech Stack
 
-Front-end: TypeScript, React, Redux toolkit
+Front-end: JavaScript, React, Socket.io
 
-Back-end: TypeScript, Nest.js, MongoDB(CosmosDB), Mongoose, Swagger UI, Passport, Jest
-TypeScript, Nest.js, MongoDB(CosmosDB), Mongoose, Swagger UI, Passport, Jest
+Back-end: NodeJS, Swagger UI, Jest
 
-Azure: Web App, Cosmos DB
 
-<a href="https://itfin-react.azurewebsites.net/" target="_blank">Azure link(Front-end)</a>
-<a href="https://itfin-back.azurewebsites.net/" target="_blank">Azure link(API)</a>
+AWS: EC2 ubuntu
 
-<a href="https://miro.com/app/board/uXjVMAa76Ek=/?share_link_id=503285943783" target="_blank">Description of the architecture and infrastructure used in the project.</a>
+<a href="https://frontend.persprojchat.space/" target="_blank">AWS link(Front-end)</a>
+<a href="https://backend.persprojchat.space/" target="_blank">AWS link(API)</a>
+
+<a href="https://miro.com/welcomeonboard/YUJtdUhiUkhJVmdWV1pmaW1yVFdRdVBwQmpuTzNkRFg3U2MxTmZTZzB4WUZyVGdZOVhja1JqSDJCZHFVcGZ3N3wzMDc0NDU3MzQ4MjYwNzAyOTY3fDI=?share_link_id=809390771141" target="_blank">Diagram.</a>
 
 ### Link to front-end Project
-<a href="https://github.com/Olehmuz/timetracker-front-end" target="_blank">ITFIN-clone front-end repository</a>
+<a href="https://github.com/illiachumak/chatFrontEnd" target="_blank">Chat front-end repository</a>
 
 # How to run a project on localhost 
 ### To start server
 Install dependencies `npm ci`
 Start with `npm run dev`
-### Environment variable that you have to provide
 
-* PORT : The port on which the application will run
-* MONGODB_URI : MongoDB URI that gives access to your database
-* SECRET_JWT_ACCESS_TOKEN : Secret phrase for your access token
-* SECRET_JWT_REFRESH_TOKEN : Secret phrase for your refresh token
-* SALT : Salt for bcrypt
 
 # Decomposition of project tasks
 ### Main functionality
@@ -42,10 +36,10 @@ Start with `npm run dev`
 - [x] Vacation calculator
 ### Layout 
 
-- [x] Profile page
-- [x] Crew page
+- [x] Auth page
+- [x] Chat page
 - [x] About page
-- [x] Tracktime page
+- [x] Profile page
 - [x] Header component
 
 ### Authorization
