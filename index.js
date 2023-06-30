@@ -8,6 +8,7 @@ const io = container.get("SocketIO")(server, {
   cors: {
     origin: "*",
   },
+  
 });
 const axios = container.get("Axios");
 
